@@ -22,9 +22,10 @@ const TopChartCard = ({song , i, isPlaying, activeSong, handlePauseClick, handle
             <Link to={`/songs/${song.key}`}>
                 <p className="text-l font-bold text-white">{song?.title}</p>
             </Link>
-            <Link to={`/artists/${song?.artists[0].adamid}`}>
+            { song && song.artists &&
+              <Link to={`/artists/${song?.artists[0].adamid}`}>
                 <p className="text-base  text-gray-300 mt-1">{song?.subtitle}</p>
-            </Link>
+            </Link>}
         </div>
      </div>
 
@@ -67,7 +68,7 @@ const handlePlayClick= (song , i) => {
     dispatch(setActiveSong({song, data, i}));
     dispatch(playPause(true));
 };
-
+  // console.log(data)
   return (
 
     <div ref={divRef}  className="xl:ml-6 ml-0 xl:mb-0 mb-6 flex-1 xl:max-w-[300px] max-w-full flex flex-col   " >
@@ -108,18 +109,22 @@ const handlePlayClick= (song , i) => {
                 modules={[FreeMode]}
                 className="mt-4"
                 >
-                  {topPlays?.slice(0,5).map((artist) =>(
+                  {topPlays?.slice(0,5)?.map((artist) => {
+                    console.log(artist)
+                    return (
                     <SwiperSlide
                       key= {artist?.key}
                       style={{width: '15%', height:'auto'}}
                       className= " shadow-lg rounded-full animate-slideright"
-                    >
+                    > 
+                   
+                        { artist && artist.artists &&  
                         <Link to={`/artists/${artist?.artists[0].adamid}`}>
-                          <img src={artist?.images.background} alt= "name"  className="rounded-full w-full object-cover" />
-                        </Link>
+                          <img src={artist?.images?.background} alt= "Name"  className="rounded-full w-full object-cover" />
+                        </Link> }
 
                     </SwiperSlide>
-                  ))}
+                  )})}
               </Swiper>
           </div>   
         
